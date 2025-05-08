@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found</title>
+    <style>
+        :root {
+            --deep-blue: #050a30;
+            --medium-blue: #072952;
+            --light-blue: #0b4284;
+            --accent-blue: #2196f3;
+            --bubble-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom, var(--deep-blue), var(--medium-blue), var(--light-blue));
+            color: white;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            perspective: 1000px;
+        }
+        
+        .intro {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--deep-blue);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 1000;
+            transition: transform 2s ease-in-out;
+        }
+        
+        .intro.hide {
+            transform: translateY(-100%);
+        }
+        
+        .intro h1 {
+            font-size: 5rem;
+            color: var(--accent-blue);
+            text-shadow: 0 0 10px rgba(33, 150, 243, 0.7);
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+        }
+        
+        .intro p {
+            font-size: 1.5rem;
+            opacity: 0;
+            animation: fadeIn 2s 1s forwards;
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 100;
+        }
+        
+        .parallax-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .layer-1 {
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000" viewBox="0 0 1000 1000"><path d="M0,250 Q250,150 500,250 T1000,250 L1000,1000 L0,1000 Z" fill="%23072952"/></svg>') repeat-x;
+            background-size: 100% 100%;
+            z-index: 1;
+            opacity: 0.3;
+        }
+        
+        .layer-2 {
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000" viewBox="0 0 1000 1000"><path d="M0,350 Q250,250 500,350 T1000,350 L1000,1000 L0,1000 Z" fill="%230b4284"/></svg>') repeat-x;
+            background-size: 100% 100%;
+            z-index: 2;
+            opacity: 0.5;
+        }
+        
+        .layer-3 {
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000" viewBox="0 0 1000 1000"><path d="M0,450 Q250,350 500,450 T1000,450 L1000,1000 L0,1000 Z" fill="%232196f3"/></svg>') repeat-x;
+            background-size: 100% 100%;
+            z-index: 3;
+            opacity: 0.2;
+        }
+        
+        .content {
+            text-align: center;
+            z-index: 10;
+            margin-top: -100px;
+            transform-style: preserve-3d;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        h1 {
+            font-size: 10rem;
+            color: white;
+            text-shadow: 0 0 20px rgba(33, 150, 243, 0.9);
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        
+        h1 span {
+            display: inline-block;
+            animation: waterEffect 3s ease-in-out infinite;
+        }
+        
+        h1 span:nth-child(1) { animation-delay: 0.1s; }
+        h1 span:nth-child(2) { animation-delay: 0.2s; }
+        h1 span:nth-child(3) { animation-delay: 0.3s; }
+        
+        @keyframes waterEffect {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(33, 150, 243, 0.7);
+        }
+        
+        .home-button {
+            padding: 12px 30px;
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.4);
+        }
+        
+        .home-button:hover {
+            background: #1976d2;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(33, 150, 243, 0.6);
+        }
+        
+        .bubbles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+            pointer-events: none;
+        }
+        
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--bubble-color);
+            backdrop-filter: blur(1px);
+            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5);
+            animation: rise 15s infinite ease-in;
+            opacity: 0;
+        }
+        
+        @keyframes rise {
+            0% {
+                opacity: 0;
+                transform: translateY(0) scale(0.1);
+            }
+            20% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh) scale(1);
+            }
+        }
+        
+        .seaweed {
+            position: absolute;
+            bottom: -20px;
+            z-index: 4;
+        }
+        
+        .seaweed-left {
+            left: 5%;
+        }
+        
+        .seaweed-right {
+            right: 5%;
+        }
+        
+        .tube-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 300px;
+            perspective: 1000px;
+            z-index: 6;
+        }
+        
+        .tube {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50px;
+            background: rgba(33, 150, 243, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(33, 150, 243, 0.7);
+        }
+        
+        .tube-left {
+            left: -300px;
+            transform: rotate(-10deg);
+        }
+        
+        .tube-right {
+            right: -300px;
+            transform: rotate(10deg);
+        }
+        
+        .liquid {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 70%;
+            background: linear-gradient(to bottom, rgba(33, 150, 243, 0.4), rgba(33, 150, 243, 0.9));
+            border-radius: 0 0 50px 50px;
+            animation: bubbleUp 5s ease-in-out infinite;
+        }
+        
+        @keyframes bubbleUp {
+            0%, 100% {
+                height: 70%;
+            }
+            50% {
+                height: 75%;
+            }
+        }
+        
+        .wave {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%232196f3" fill-opacity="0.5" d="M0,160L48,170.7C96,181,192,203,288,202.7C384,203,480,181,576,165.3C672,149,768,139,864,154.7C960,171,1056,213,1152,218.7C1248,224,1344,192,1392,176L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: 100% 100%;
+            animation: waveAnimation 10s linear infinite;
+        }
+        
+        @keyframes waveAnimation {
+            0% {
+                background-position-x: 0;
+            }
+            100% {
+                background-position-x: 1000px;
+            }
+        }
+        
+        .submarine-gif {
+            margin-top: 50px;
+            width: 200px;
+            height: 200px;
+            background: url('/api/placeholder/200/200');
+            border-radius: 50%;
+            box-shadow: 0 0 30px rgba(33, 150, 243, 0.8);
+            animation: submarineFloat 8s ease-in-out infinite;
+        }
+        
+        @keyframes submarineFloat {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-15px) rotate(5deg);
+            }
+            50% {
+                transform: translateY(0) rotate(0deg);
+            }
+            75% {
+                transform: translateY(15px) rotate(-5deg);
+            }
+        }
+        
+        /* Seaweed SVG styling */
+        .seaweed svg {
+            width: 100px;
+            height: 350px;
+            opacity: 0.7;
+        }
+        
+        .seaweed-path {
+            fill: none;
+            stroke: #0B6E4F;
+            stroke-width: 5;
+            stroke-linecap: round;
+        }
+        
+        .seaweed-animation {
+            animation: seaweedWave 8s ease-in-out infinite;
+        }
+        
+        @keyframes seaweedWave {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(20px) rotate(5deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="intro">
+        <h1>DIVING DEEP</h1>
+        <p>Exploring the unknown depths...</p>
+    </div>
+
+    <div class="container">
+        <div class="parallax-layer layer-1" data-speed="0.1"></div>
+        <div class="parallax-layer layer-2" data-speed="0.2"></div>
+        <div class="parallax-layer layer-3" data-speed="0.3"></div>
+        
+        <div class="wave"></div>
+        
+        <div class="content">
+            <h1><span>4</span><span>0</span><span>4</span></h1>
+            <p>Oops! The page you're looking for has drifted into the deep sea.</p>
+            <a href="/" class="home-button">Return to Shore</a>
+            <div class="submarine-gif"></div>
+        </div>
+        
+        <div class="tube-container">
+            <div class="tube tube-left">
+                <div class="liquid"></div>
+            </div>
+        </div>
+        
+        <div class="tube-container">
+            <div class="tube tube-right">
+                <div class="liquid"></div>
+            </div>
+        </div>
+        
+        <div class="seaweed seaweed-left">
+            <svg viewBox="0 0 100 350" xmlns="http://www.w3.org/2000/svg">
+                <path class="seaweed-path seaweed-animation" d="M50,350 C30,300 70,250 50,200 C30,150 70,100 50,50 C40,25 60,0 50,0"></path>
+                <path class="seaweed-path seaweed-animation" d="M30,350 C10,300 50,250 30,200 C10,150 50,100 30,50 C20,25 40,0 30,0" style="animation-delay: 0.5s;"></path>
+                <path class="seaweed-path seaweed-animation" d="M70,350 C50,300 90,250 70,200 C50,150 90,100 70,50 C60,25 80,0 70,0" style="animation-delay: 1s;"></path>
+            </svg>
+        </div>
+        
+        <div class="seaweed seaweed-right">
+            <svg viewBox="0 0 100 350" xmlns="http://www.w3.org/2000/svg">
+                <path class="seaweed-path seaweed-animation" d="M50,350 C30,300 70,250 50,200 C30,150 70,100 50,50 C40,25 60,0 50,0"></path>
+                <path class="seaweed-path seaweed-animation" d="M30,350 C10,300 50,250 30,200 C10,150 50,100 30,50 C20,25 40,0 30,0" style="animation-delay: 0.5s;"></path>
+                <path class="seaweed-path seaweed-animation" d="M70,350 C50,300 90,250 70,200 C50,150 90,100 70,50 C60,25 80,0 70,0" style="animation-delay: 1s;"></path>
+            </svg>
+        </div>
+        
+        <div class="bubbles"></div>
+    </div>
+
+    <script>
+        // Create bubbles
+        const createBubbles = () => {
+            const bubblesContainer = document.querySelector('.bubbles');
+            const bubbleCount = 30;
+            
+            for (let i = 0; i < bubbleCount; i++) {
+                const bubble = document.createElement('div');
+                bubble.classList.add('bubble');
+                
+                // Random size between 10px and 50px
+                const size = Math.random() * 40 + 10;
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                
+                // Random position
+                bubble.style.left = `${Math.random() * 100}%`;
+                
+                // Random delay for animation
+                const delay = Math.random() * 15;
+                bubble.style.animationDelay = `${delay}s`;
+                
+                // Random duration for animation (faster for smaller bubbles)
+                const duration = Math.random() * 10 + 10;
+                bubble.style.animationDuration = `${duration}s`;
+                
+                bubblesContainer.appendChild(bubble);
+            }
+        };
+        
+        // Parallax effect
+        const handleParallax = () => {
+            const layers = document.querySelectorAll('.parallax-layer');
+            
+            window.addEventListener('mousemove', (e) => {
+                const mouseX = e.clientX / window.innerWidth;
+                const mouseY = e.clientY / window.innerHeight;
+                
+                layers.forEach(layer => {
+                    const speed = parseFloat(layer.getAttribute('data-speed'));
+                    const x = (window.innerWidth - mouseX * speed * 100);
+                    const y = (window.innerHeight - mouseY * speed * 100);
+                    
+                    layer.style.transform = `translateX(${x / 100}px) translateY(${y / 100}px)`;
+                });
+            });
+        };
+        
+        // Handle intro animation
+        const handleIntro = () => {
+            const intro = document.querySelector('.intro');
+            
+            setTimeout(() => {
+                intro.classList.add('hide');
+            }, 3000);
+        };
+        
+        // Initialize
+        window.addEventListener('DOMContentLoaded', () => {
+            createBubbles();
+            handleParallax();
+            handleIntro();
+        });
+    </script>
+</body>
+</html>
